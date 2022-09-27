@@ -7,7 +7,7 @@ class Database
     private $host = "localhost";
 	private $uname = "root";
 	private $pass = "";
-	private $db = "retail";
+	private $db = "gudang_retail";
     private $conn; 
 
     public $table='';
@@ -37,16 +37,17 @@ class Database
         return $rows;
     }
 
-    public static function get() 
+    public static function get($column='*')
     {
         $instance = new static;
         $db = new Database();
-        $sql = "SELECT * FROM ".$instance->table.self::$query;
+        $sql = "SELECT ".$column." FROM ".$instance->table.self::$query;
         $result = $db->conn->query($sql);
         $rows = [];
         while ($row = $result->fetch_assoc()) {
             $rows[] = $row;
         }
+
         return $rows;
     }
 
@@ -168,4 +169,29 @@ class Database
         $result = $db->conn->query($sql);
         return $result;
     }
+
+    //inner join
+    public static function join($table, $column1, $operator, $column2) 
+    {
+        //example: join('obat', 'obat.id', '=', 'transaksi.id_obat')
+        $sql =" INNER JOIN ".$table." ON ".$column1." ".$operator." ".$column2;
+        self::$query = self::$query.$sql;
+        return new static;
+    }
+
+    //count data
+    public static function count() 
+    {
+        $instance = new static;
+        $db = new Database();
+        $sql = "SELECT COUNT(*) AS total FROM ".$instance->table.self::$query;
+        $result = $db->conn->query($sql);
+        $rows =0;
+        while ($row = $result->fetch_assoc()) {
+            $rows = $row['total'];
+        }
+
+        return (int)$rows;
+    }
+
 }
