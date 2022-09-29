@@ -3,11 +3,11 @@ namespace App\Helpers;
 
 class Files
 {
-    //2 mb
+    //ini akan membatasi uukuran file menjadi maksimal 2MB
     public $fileSize=2097152;
+    //ini akan membatasi ekstensi file yang diizinkan
     public $fileType= ['jpg', 'jpeg', 'png', 'gif'];
     
-    //upload file
     public static function upload($file, $path)
     {
         $instance = new static;
