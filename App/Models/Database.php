@@ -24,7 +24,7 @@ class Database implements Config
         }
     }
 
-    function primaryKey()
+    static function primaryKey()
     {
         return 'id';
     }
@@ -52,6 +52,7 @@ class Database implements Config
         $instance = new static;
         $db = new Database();
         $sql = "SELECT " . $column . " FROM " . $instance->table . self::$query;
+        dd($sql);
         $result = $db->conn->query($sql);
         $rows = [];
         while ($row = $result->fetch_assoc()) {
@@ -66,6 +67,7 @@ class Database implements Config
         $instance = new static;
         $db = new Database();
         $sql = "SELECT * FROM " . $instance->table . self::$query;
+
         $result = $db->conn->query($sql);
         $rows = '';
         while ($row = $result->fetch_assoc()) {
